@@ -1,0 +1,99 @@
+<!--Partner name: Riya Sharma UCID:30169723-->
+<!--Partner name: Joan Osike UCID:30178541-->
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title > Joya Jewellery - Login </title >
+    <meta charset =" UTF -8" >
+    <meta name =" description " content =" Our login page" >
+    <meta name =" keywords " content =" HTML , Web Development , Jewellery , png " >
+    <meta name =" author " content =" Riya Sharma, Joan Osike" >
+    <br><link rel = "stylesheet" href = "styles.css">
+</head>
+<body>
+    <header>
+        <img src="images/logo.png" alt="Our Logo" width="150">
+        <span style="color:brown;font-size:60px;">Joya Jewellery</span>
+    </header>
+
+    <div>
+        <a href="index.html">Go To Home Page</a>
+        <a href="products.html">Go To Products Page</a>
+        <a href="login.html">Go To Login Page</a>
+        <a href="contact.html">Go To Contact Page</a>
+    </div>
+    <main id="login">
+        
+        <section class="login">
+            <form onSubmit = "loginClick(event)">
+                <label for="Username">Username:</label>
+                <input type="Username" id="Username" name="Username" placeholder="Enter your username">
+                <label for="Password">Password:</label>
+                <span><input type="Password" id="Password" name="Password" placeholder="Enter your password">
+                <button type="button" onclick="verifyLogin()">Login</button></span>
+            </form>
+
+            <p>New User?<a href="signup.html"> Click here to sign up!</a></section></p>>
+        </section>
+
+        <div class="message-box"></div>
+
+    </main>
+
+    <footer>
+        <p>Copyright &copy; 2024 Joya Jewellery</p>
+    </footer>
+
+    <script>
+        function loginClick(event) {
+            event.preventDefault();
+        }
+        const loginDisplay = document.getElementById('login');
+        var problem = document.createElement("div");
+        problem.id = "loginSpace";
+        problem.style.border = "black solid 2px";
+        problem.style.background = "#f9f9f9";
+        problem.style.padding = "10px";
+        problem.style.margin = "20px";
+        problem.style.display = "none";
+        loginDisplay.appendChild(problem);
+
+        async function verifyLogin() {
+            try {
+                var paragraph = document.createElement("p");
+                const result = await
+                    fetch("https://jsonplaceholder.typicode.com/users");
+                const checking = await result.json();
+
+                var username = document.getElementById('Username').value;
+                var password = document.getElementById('Password').value;
+
+                var loginSpace = document.getElementById("loginSpace");
+                if(loginSpace) {
+                    loginSpace.innerHTML = '';
+                }
+
+                var check = false;
+                checking.forEach(user => {
+                    let {name, email} = user;
+                    if (name == username && email == password) {
+                        check = true;
+                    }
+                });
+                if (check == true) {
+                    paragraph.textContent = "You have successfully logged in!";
+                }
+                else {
+                    paragraph.textContent = "Unsuccessful login. Please try again.";
+                }
+                loginSpace.appendChild(paragraph);
+                loginSpace.style.display = "block";
+            }
+            catch (error) {
+                alert('Unsuccessful API call. Details are as follows:', error);
+            }
+        }
+    </script>
+</body>
+</html>
